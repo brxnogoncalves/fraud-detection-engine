@@ -1,5 +1,6 @@
 package com.brxnorafa.fraud_detection_engine.transaction.service;
 
+import com.brxnorafa.fraud_detection_engine.transaction.dto.CreateTransactionRequest;
 import com.brxnorafa.fraud_detection_engine.transaction.entity.Transaction;
 import com.brxnorafa.fraud_detection_engine.transaction.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,16 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Transaction create(Transaction transaction) {
-        return transactionRepository.save(transaction);
+    public Transaction create(CreateTransactionRequest transaction) {
+        Transaction transactionToSave = new Transaction(
+                transaction.amount(),
+                transaction.currency(),
+                transaction.customerId(),
+                transaction.timestamp(),
+                Transaction.Status.PENDING
+        );
+
+        return transactionRepository.save(transactionToSave);
     }
 
     public List<Transaction> findAll() {
