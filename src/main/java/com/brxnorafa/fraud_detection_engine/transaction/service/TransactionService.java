@@ -30,4 +30,11 @@ public class TransactionService {
     public void delete(Long id) {
         transactionRepository.deleteById(id);
     }
+
+    public Transaction updateStatus(Long id, Transaction.Status status) {
+        Transaction transaction = findById(id);
+        transaction.setStatus(status);
+
+        return transactionRepository.save(transaction);
+    }
 }

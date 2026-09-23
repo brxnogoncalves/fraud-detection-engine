@@ -37,4 +37,12 @@ public class TransactionController {
         transactionService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Transaction> updateStatus(
+            @PathVariable Long id,
+            @RequestParam Transaction.Status status
+    ) {
+        return ResponseEntity.ok(transactionService.updateStatus(id, status));
+    }
 }
