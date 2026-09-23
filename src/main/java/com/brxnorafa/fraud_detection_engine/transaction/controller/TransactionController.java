@@ -2,6 +2,7 @@ package com.brxnorafa.fraud_detection_engine.transaction.controller;
 
 import com.brxnorafa.fraud_detection_engine.transaction.entity.Transaction;
 import com.brxnorafa.fraud_detection_engine.transaction.service.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> create(@RequestBody Transaction transaction) {
+    public ResponseEntity<Transaction> create(@Valid @RequestBody Transaction transaction) {
         return ResponseEntity.ok(transactionService.create(transaction));
     }
 

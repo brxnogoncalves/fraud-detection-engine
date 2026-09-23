@@ -1,6 +1,9 @@
 package com.brxnorafa.fraud_detection_engine.transaction.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,22 +19,28 @@ public class Transaction {
     private Long id;
 
     @Setter
+    @NotNull
+    @DecimalMin(value = "0.01")
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
     @Setter
+    @NotBlank
     @Column(nullable = false, length = 3)
     private String currency;
 
     @Setter
+    @NotBlank
     @Column(name = "customer_id", nullable = false)
     private String customerId;
 
     @Setter
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
     @Setter
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Status status;
