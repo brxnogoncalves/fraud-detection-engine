@@ -4,6 +4,7 @@ import com.brxnorafa.fraud_detection_engine.transaction.dto.CreateTransactionReq
 import com.brxnorafa.fraud_detection_engine.transaction.dto.TransactionResponse;
 import com.brxnorafa.fraud_detection_engine.transaction.entity.Transaction;
 import com.brxnorafa.fraud_detection_engine.transaction.repository.TransactionRepository;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,9 +74,13 @@ public class TransactionService {
         transactionRepository.delete(transactionToDelete);
     }
 
-    public TransactionResponse updateStatus(Long id, Transaction.Status status) {
+    public TransactionResponse updateStatus(Long id, Transaction.Status status) throws BadRequestException {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new TransactionNotFoundException(id));
+
+        if (!transaction.getStatus().equals(Transaction.Status.PENDING) || status.equals(Transaction.Status.PENDING)) {
+            throw new BadRequestException("Only pending status may be changed");
+        }
 
         transaction.setStatus(status);
 
