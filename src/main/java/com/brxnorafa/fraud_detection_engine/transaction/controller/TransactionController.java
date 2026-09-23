@@ -1,6 +1,7 @@
 package com.brxnorafa.fraud_detection_engine.transaction.controller;
 
 import com.brxnorafa.fraud_detection_engine.transaction.dto.CreateTransactionRequest;
+import com.brxnorafa.fraud_detection_engine.transaction.dto.TransactionResponse;
 import com.brxnorafa.fraud_detection_engine.transaction.entity.Transaction;
 import com.brxnorafa.fraud_detection_engine.transaction.service.TransactionService;
 import jakarta.validation.Valid;
@@ -19,17 +20,17 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> create(@Valid @RequestBody CreateTransactionRequest transaction) {
+    public ResponseEntity<TransactionResponse> create(@Valid @RequestBody CreateTransactionRequest transaction) {
         return ResponseEntity.ok(transactionService.create(transaction));
     }
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> findAll() {
+    public ResponseEntity<List<TransactionResponse>> findAll() {
         return ResponseEntity.ok(transactionService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> findById(@PathVariable Long id) {
+    public ResponseEntity<TransactionResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(transactionService.findById(id));
     }
 
@@ -40,7 +41,7 @@ public class TransactionController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Transaction> updateStatus(
+    public ResponseEntity<TransactionResponse> updateStatus(
             @PathVariable Long id,
             @RequestParam Transaction.Status status
     ) {
