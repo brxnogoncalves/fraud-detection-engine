@@ -67,7 +67,10 @@ public class TransactionService {
     }
 
     public void delete(Long id) {
-        transactionRepository.deleteById(id);
+        Transaction transactionToDelete = transactionRepository.findById(id)
+                .orElseThrow(() -> new TransactionNotFoundException(id));
+
+        transactionRepository.delete(transactionToDelete);
     }
 
     public TransactionResponse updateStatus(Long id, Transaction.Status status) {
