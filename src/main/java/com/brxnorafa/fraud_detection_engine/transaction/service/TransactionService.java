@@ -24,7 +24,7 @@ public class TransactionService {
 
     public Transaction findById(Long id) {
         return transactionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transaction Not Found"));
+                .orElseThrow(() -> new TransactionNotFoundException(id));
     }
 
     public void delete(Long id) {
