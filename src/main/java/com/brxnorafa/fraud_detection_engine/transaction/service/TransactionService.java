@@ -74,12 +74,12 @@ public class TransactionService {
         transactionRepository.delete(transactionToDelete);
     }
 
-    public TransactionResponse updateStatus(Long id, Transaction.Status status) throws BadRequestException {
+    public TransactionResponse updateStatus(Long id, Transaction.Status status) throws InvalidTransactionStatusUpdateException {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new TransactionNotFoundException(id));
 
         if (!transaction.getStatus().equals(Transaction.Status.PENDING) || status.equals(Transaction.Status.PENDING)) {
-            throw new BadRequestException("Only pending status may be changed");
+            throw new InvalidTransactionStatusUpdateException(transaction.getStatus(), status);
         }
 
         transaction.setStatus(status);

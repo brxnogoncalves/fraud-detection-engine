@@ -1,5 +1,6 @@
 package com.brxnorafa.fraud_detection_engine.shared.exception;
 
+import com.brxnorafa.fraud_detection_engine.transaction.service.InvalidTransactionStatusUpdateException;
 import com.brxnorafa.fraud_detection_engine.transaction.service.TransactionNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,17 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(InvalidTransactionStatusUpdateException.class)
+    public ResponseEntity<ApiError> handleInvalidTransactionStatusUpdate(InvalidTransactionStatusUpdateException exception) {
+        ApiError response = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage(),
+                Map.of()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
